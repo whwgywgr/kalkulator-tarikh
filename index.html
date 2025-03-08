@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Tarikh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            color: black;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            border: 2px solid black;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid black;
+        }
+        button {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed black;
+            background-color: #f9f9f9;
+            display: none;
+        }
+        .result-date {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kalkulator Tarikh</h1>
+    
+    <div class="container">
+        <div class="form-group">
+            <label for="start-date">Tarikh Mula:</label>
+            <input type="date" id="start-date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="days">Tambah Hari:</label>
+            <input type="number" id="days" min="1" value="1" required>
+        </div>
+        
+        <button onclick="calculateDate()">Kira Tarikh</button>
+        
+        <div class="result" id="result">
+            <p>Tarikh Selepas <span id="days-added"></span> hari ditambah:</p>
+            <p class="result-date" id="result-date"></p>
+        </div>
+    </div>
 
+    <script>
+        function calculateDate() {
+            // Dapatkan nilai input
+            const startDateStr = document.getElementById('start-date').value;
+            const daysToAdd = parseInt(document.getElementById('days').value);
+            
+            // Validasi input
+            if (!startDateStr) {
+                alert('Sila masukkan tarikh mula!');
+                return;
+            }
+            
+            if (isNaN(daysToAdd) || daysToAdd < 1) {
+                alert('Sila masukkan bilangan hari yang sah!');
+                return;
+            }
+            
+            // Kira tarikh baru
+            const startDate = new Date(startDateStr);
+            const resultDate = new Date(startDate);
+            resultDate.setDate(startDate.getDate() + daysToAdd);
+            
+            // Format tarikh untuk paparan
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = resultDate.toLocaleDateString('ms-MY', options);
+            
+            // Papar hasil
+            document.getElementById('days-added').textContent = daysToAdd;
+            document.getElementById('result-date').textContent = formattedDate;
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        // Tetapkan tarikh hari ini sebagai nilai awal
+        document.getElementById('start-date').valueAsDate = new Date();
+    </script>
+</body>
+</html>
